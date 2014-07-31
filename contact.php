@@ -63,14 +63,14 @@ $email_message = "Name: ".$name."
 #construct the email headers
 $to = "katherine.hambley@cityofracine.org";  //for testing purposes, this should be YOUR email address.
 $from = $_GET['email'];
-$email_subject = $_GET['subject'];
+$email_subject = "CONTACT #".time().": ".$_GET['subject'];
 
 #now mail
 mail($to, $email_subject, $email_message, "From: ".$from);
 
 	echo "<h3>Thank you!</h3>";
 	echo "Here is a copy of your request:<br/><br/>";
-	
+	echo "CONTACT #".time().":<br/>";
 	echo "Name: ".$name."<br/>";
 	echo "Email: ".$email."<br/>";
 	echo "Type of Request: ".$whoami."<br/>";
