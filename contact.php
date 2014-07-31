@@ -50,6 +50,24 @@ if (isset($_GET['name'], $_GET['email'], $_GET['whoami'], $_GET['subject'], $_GE
 	
 	extract($_GET, EXTR_PREFIX_SAME, "get");
 	
+	#construct email message
+$email_message = "Name: ".$name."
+	Email: ".$email."
+	Type of Request: ".$whoami."
+	Subject: ".$subject."
+	Message: ".$message."
+	How you heard about us: ".$found."
+	User Agent: ".$_SERVER['HTTP_USER_AGENT']."
+	IP Address: ".$_SERVER['REMOTE_ADDR'];
+
+#construct the email headers
+$to = "katherine.hambley@cityofracine.org";  //for testing purposes, this should be YOUR email address.
+$from = $_GET['email'];
+$email_subject = $_GET['subject'];
+
+#now mail
+mail($to, $email_subject, $email_message, "From: ".$from);
+
 	echo "<h3>Thank you!</h3>";
 	echo "Here is a copy of your request:<br/><br/>";
 	
