@@ -53,6 +53,10 @@ for ($i = 1; $i <= 2; $i++) {
    echo $$element_name;
    echo "<br/>";
 }
+
+echo "You are currently working on ".$_SERVER['HTTP_USER_AGENT'];
+echo "<br/>The IP address of the computer you're working on is ".$_SERVER['HTTP_X_FORWARDED_FOR'];
+
 ?>
 </body>
 </html>
