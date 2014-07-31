@@ -6,7 +6,21 @@
 </head>
 
 <body>
+<?php
+
+if (isset($_GET['error']) == "1") {
+   $error_code = 1;  //this means that there's been an error and we need to notify the customer
+} else {
+   $error_code = 0;
+}
+
+?>
 <h3>Contact ACME Corporation</h3>
+<?php
+if ($error_code) {
+   echo "<div style='color:red'>Please help us with the following:</div>";
+}
+?>
 <form method="GET" action="contact.php">
 <table>
 <tr>
@@ -15,6 +29,11 @@ Name:
 </td>
 <td align="left">
 <input type="text" size="25" name="name" value="<?php if (isset($_GET['name'])) { echo $_GET['name']; } ?>" />
+<?php
+if ($error_code && !($_GET['name'])) {
+   echo "<b>Please include your name.</b>";
+}
+?>
 </td>
 </tr>
 <tr>
@@ -22,6 +41,11 @@ Name:
 Email:
 </td><td align="left">
 <input type="text" size="25" name="email" value="<?php if (isset($_GET['email'])) { echo $_GET['email']; } ?>" />
+<?php
+if ($error_code && !($_GET['email'])) {
+   echo "<b>Please include your email address.</b>";
+}
+?>
 </td>
 </tr>
 <tr>
@@ -48,6 +72,11 @@ if ($_GET['whoami'] == "billing") {
 }} 
 ?> />I have a billing question.
 </select>
+<?php
+if ($error_code && !($_GET['whoami'])) {
+   echo "<b>Please choose a request type.</b>";
+}
+?>
 </td>
 </tr>
 <tr>
@@ -57,6 +86,11 @@ Subject:
 <td align="left">
 <input type="text" size="50" max="50" name="subject" 
 value="<?php if (isset($_GET['subject'])) { echo $_GET['subject']; } ?>" />
+<?php
+if ($error_code && !($_GET['subject'])) {
+   echo "<b>Please add a subject for your request.</b>";
+}
+?>
 </td>
 </tr>
 <tr>
@@ -67,6 +101,11 @@ Message:
 <textarea name="message" cols="50" rows="8">
 <?php if (isset($_GET['message'])) { echo $_GET['message']; } ?>
 </textarea>
+<?php
+if ($error_code && !($_GET['message'])) {
+   echo "<b>Please fill in a message for us.</b>";
+}
+?>
 </td>
 </tr>
 <tr>

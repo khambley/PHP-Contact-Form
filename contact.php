@@ -14,8 +14,9 @@ if (!($_GET['name'] && $_GET['email'] && $_GET['whoami']
 				
    #with the header() function, no output can come before it.
    #echo "Please make sure you've filled in all required information.";
-
-   $url = "http://localhost:81/PHP-Contact-Form/contact-form.php";
+	 $query_string = $_SERVER['QUERY_STRING'];
+	 #add a flag called "error" to tell contact_form.php that something needs fixed
+   $url = "http://localhost:81/PHP-Contact-Form/contact-form.php?".$query_string."&error=1";
    header("Location: ".$url);
    exit(); // stops program here
 }
