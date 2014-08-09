@@ -7,7 +7,46 @@
 
 <body>
 <?php
+function mail_message($data_array, $template_file, $deadline_str) {
 
+   
+   #get template contents, and replace variables with data
+   $email_message = file_get_contents($template_file);
+   $email_message = str_replace("#DEADLINE#", $deadline_str, $email_message);
+   $email_message = str_replace("#WHOAMI#", $data_array['whoami'], $email_message);
+   $email_message = str_replace("#DATE#", date("F d, Y h:i a"), $email_message);
+   $email_message = str_replace("#NAME#", $data_array['name'], $email_message);
+   $email_message = str_replace("#EMAIL#", $data_array['email'], $email_message);
+   $email_message = str_replace("#IP#", "127.0.0.1", $email_message);
+   $email_message = str_replace("#AGENT#", $_SERVER['HTTP_USER_AGENT'], $email_message);
+   $email_message = str_replace("#SUBJECT#", $data_array['subject'], $email_message);
+   $email_message = str_replace("#MESSAGE#", $data_array['message'], $email_message);
+   $email_message = str_replace("#FOUND#", $data_array['found'], $email_message);
+    
+   #include whether or not to contact the customer with offers in the future
+   $contact = "";
+   if (isset($data_array['update1'])) {
+      $contact = $contact." Please email updates about your products.<br/>";
+   }   
+   if (isset($data_array['update2'])) {
+      $contact = $contact." Please email updates about products from third-party partners.<br/>";
+   }
+   $email_message = str_replace("#CONTACT#", $contact, $email_message);
+   
+
+   #construct the email headers
+   $to = "support@example.com";  //for testing purposes, this should be YOUR email address.
+   $from = $data_array['email'];
+   $email_subject = "CONTACT #".time().": ".$data_array['subject'];
+
+   $headers  = "From: " . $from . "\r\n";
+   $headers .= 'MIME-Version: 1.0' . "\n";  //these headers will allow our HTML tags to be displayed in the email
+   $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";   
+   
+   #now mail
+   mail($to, $email_subject, $email_message, $headers);
+  
+}
 #We used the superglobal $_POST here
 if (!($_GET['name'] && $_GET['email'] && $_GET['whoami'] 
       && $_GET['subject'] && $_GET['message'])) {
@@ -49,58 +88,21 @@ echo "Update you about partners' products: ".$update2."<br/>";*/
 if (isset($_GET['name'], $_GET['email'], $_GET['whoami'], $_GET['subject'], $_GET['message'], $_GET['found'])) {
 	
 	extract($_GET, EXTR_PREFIX_SAME, "get");
+	#we want a deadline 2 days after the message date.
+   $deadline_array = getdate();
+   $deadline_day = $deadline_array['mday'] + 2;
+
+   $deadline_stamp = mktime($deadline_array['hours'],$deadline_array['minutes'],$deadline_array['seconds'],
+   $deadline_array['mon'],$deadline_day,$deadline_array['year']);
+   $deadline_str = date("F d, Y", $deadline_stamp);
+	//DOCUMENT_ROOT is the file path leading up to the template name.
+	mail_message($_GET, $_SERVER['DOCUMENT_ROOT']."PHP-Contact-form/email_template.txt", $deadline_str);
 	
-	#construct email message
-$email_message = "Name: ".$name."
-	Email: ".$email."
-	Type of Request: ".$whoami."
-	Subject: ".$subject."
-	Message: ".$message."
-	How you heard about us: ".$found."
-	User Agent: ".$_SERVER['HTTP_USER_AGENT']."
-	IP Address: ".$_SERVER['REMOTE_ADDR'];
-
-#construct the email headers
-$to = "katherine.hambley@cityofracine.org";  //for testing purposes, this should be YOUR email address.
-$from = $_GET['email'];
-$email_subject = "CONTACT #".time().": ".$_GET['subject'];
-
-#now mail
-mail($to, $email_subject, $email_message, "From: ".$from);
-
 	include($_SERVER['DOCUMENT_ROOT']."PHP-Contact-Form/template_top.inc");
-	
-	echo "<h3>Thank you!</h3>";
-	echo "Here is a copy of your request:<br/><br/>";
-	echo "CONTACT #".time().":<br/>";
-	echo "Name: ".$name."<br/>";
-	echo "Email: ".$email."<br/>";
-	echo "Type of Request: ".$whoami."<br/>";
-	echo "Subject: ".$subject."<br/>";
-	echo "Message: ".$message."<br/>";
-	echo "How you heard about us: ".$found."<br/>";
-	if (isset($_GET['update1'])) {
-		$update1 = $_GET['update1'];
-		echo "Update1: ".$update1."<br />";
-	} else {
-		$update1 = "";
-	}
-	if (isset($_GET['update2'])) {
-		$update2 = $_GET['update2'];
-		echo "Update2: ".$update2."<br />";
-	} else {
-		$update2 = "";	
-	}
-	
-	/*for ($i = 1; $i <= 2; $i++) {
-		 $element_name = "update".$i;
-		 echo $element_name.": ";
-		 echo $$element_name;
-		 echo "<br/>";
-	}*/
 }
 echo "You are currently working on ".$_SERVER['HTTP_USER_AGENT'];
 echo "<br/>The IP address of the computer you're working on is 127.0.0.1"/*.$_SERVER['HTTP_X_FORWARDED_FOR']*/;
+
  include($_SERVER['DOCUMENT_ROOT']."PHP-Contact-Form/template_bottom.inc");
 ?>
 </body>

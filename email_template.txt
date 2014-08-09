@@ -1,0 +1,18 @@
+You have just received a customer email.  Please respond to this email by #DEADLINE#.  
+Details are below:
+
+<table>
+<tr><td width="100" align="right">Message Type: </td><td>#WHOAMI#</td></tr>
+<tr><td width="100" align="right">Message Date: </td><td>#DATE#</td></tr>
+<tr><td width="100" align="right">Name: </td><td>#NAME#</td></tr>
+<tr><td width="100" align="right">Email: </td><td>#EMAIL#</td></tr>
+<tr><td width="100" align="right">IP Address: </td><td>#IP#</td></tr>
+<tr><td width="100" align="right">Platform: </td><td>#AGENT#</td></tr>
+</table>
+
+<b>Subject: #SUBJECT#
+<br>
+#MESSAGE#</b>
+<br><br>
+This customer found us through #FOUND#.<br>
+#CONTACT#
