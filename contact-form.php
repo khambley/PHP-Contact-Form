@@ -8,6 +8,8 @@
 <body>
 <?php
 
+require($_SERVER['DOCUMENT_ROOT']."PHP-Contact-Form/template_top.inc");
+
 if (isset($_GET['error']) == "1") {
    $error_code = 1;  //this means that there's been an error and we need to notify the customer
 } else {
@@ -132,5 +134,8 @@ How did you hear about us?
 </td></tr>
 </table>
 </form>
+<?php
+   require($_SERVER['DOCUMENT_ROOT']."PHP-Contact-Form/template_bottom.inc"); 
+?>
 </body>
 </html>

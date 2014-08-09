@@ -16,7 +16,7 @@ if (!($_GET['name'] && $_GET['email'] && $_GET['whoami']
    #echo "Please make sure you've filled in all required information.";
 	 $query_string = $_SERVER['QUERY_STRING'];
 	 #add a flag called "error" to tell contact_form.php that something needs fixed
-   $url = "http://localhost:81/PHP-Contact-Form/contact-form.php?".$query_string."&error=1";
+   $url = "http://".$_SERVER['HTTP_HOST']."/PHP-Contact-Form/contact-form.php?".$query_string."&error=1";
    header("Location: ".$url);
    exit(); // stops program here
 }
@@ -68,6 +68,8 @@ $email_subject = "CONTACT #".time().": ".$_GET['subject'];
 #now mail
 mail($to, $email_subject, $email_message, "From: ".$from);
 
+	include($_SERVER['DOCUMENT_ROOT']."PHP-Contact-Form/template_top.inc");
+	
 	echo "<h3>Thank you!</h3>";
 	echo "Here is a copy of your request:<br/><br/>";
 	echo "CONTACT #".time().":<br/>";
@@ -99,7 +101,7 @@ mail($to, $email_subject, $email_message, "From: ".$from);
 }
 echo "You are currently working on ".$_SERVER['HTTP_USER_AGENT'];
 echo "<br/>The IP address of the computer you're working on is 127.0.0.1"/*.$_SERVER['HTTP_X_FORWARDED_FOR']*/;
-
+ include($_SERVER['DOCUMENT_ROOT']."PHP-Contact-Form/template_bottom.inc");
 ?>
 </body>
 </html>

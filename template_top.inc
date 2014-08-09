@@ -1,0 +1,16 @@
+<!doctype html>
+<html>
+<head>
+<title>Acme, Inc.</title>
+<link rel="stylesheet" href="http://students.oreillyschool.com/resource/php_lesson.css" type="text/css" />
+</head>
+<body>
+<div class="topbar">
+ACME, INC.
+</div>
+<table>
+<tr><td class="sidebar" valign="top">
+links go here
+</td><td class="content">
+
+
