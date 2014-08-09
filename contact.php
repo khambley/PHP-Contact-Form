@@ -35,7 +35,7 @@ function mail_message($data_array, $template_file, $deadline_str) {
    
 
    #construct the email headers
-   $to = "support@example.com";  //for testing purposes, this should be YOUR email address.
+   $to = "superdesigngirl@mac.com";  //for testing purposes, this should be YOUR email address.
    $from = $data_array['email'];
    $email_subject = "CONTACT #".time().": ".$data_array['subject'];
 
@@ -102,7 +102,9 @@ if (isset($_GET['name'], $_GET['email'], $_GET['whoami'], $_GET['subject'], $_GE
 }
 echo "You are currently working on ".$_SERVER['HTTP_USER_AGENT'];
 echo "<br/>The IP address of the computer you're working on is 127.0.0.1"/*.$_SERVER['HTTP_X_FORWARDED_FOR']*/;
-
+?>
+<br/><br/><a href="download.php"><b>Download our PDF brochure!</b></a>
+<?php
  include($_SERVER['DOCUMENT_ROOT']."PHP-Contact-Form/template_bottom.inc");
 ?>
 </body>
